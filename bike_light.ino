@@ -27,18 +27,22 @@ void loop() {
   // depending on the lightState, flash different light patterns
   switch (lightState) {
     case 0:
+      // all LEDs off
       allOff();
       break;
     case 1:
+      // all LEDs on
       allOn();
       break;
     case 2:
+      // LEDs flash on and off
       allOff();
-      delay(1000);
+      delay(500);
       allOn();
-      delay(1000);
+      delay(500);
       break;
     case 3:
+      // LEDs light up in sequence
       bouncing();
       break;
   }
@@ -85,12 +89,12 @@ void bouncing() {
   // flash each LED once
   allOff();
   digitalWrite(greenPin, HIGH);
-  delay(1000);
+  delay(500);
   digitalWrite(greenPin, LOW);
   digitalWrite(yellowPin, HIGH);
-  delay(1000);
+  delay(500);
   digitalWrite(yellowPin, LOW);
   digitalWrite(redPin, HIGH);
-  delay(1000);
+  delay(500);
   return;
 }
