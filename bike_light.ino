@@ -1,12 +1,14 @@
-// set pins for button and LEDs
+// set pins for button, LEDs, and pot
 const int buttonPin = 2;
 const int greenPin = 9;
 const int yellowPin = 10;
 const int redPin = 11;
+const int potPin = 0;
 
 int lightState = 0; // set initial light state to off
 int buttonTime = 0; // initialize most recent time button was pressed
 int lastButtonTime = 0; // initialize last time button was pressed
+int potVal = 500; // initialize potentiometer value
 
 void setup() {
   // if button is pressed, interrupt loop and run increment function
@@ -27,28 +29,32 @@ void loop() {
   // depending on the lightState, flash different light patterns
   switch (lightState) {
     case 0:
-      // all LEDs off
-      allOff();
-      break;
+    // all LEDs off
+    allOff();
+    break;
     case 1:
-      // all LEDs on
-      allOn();
-      break;
+    // all LEDs on
+    allOn();
+    break;
     case 2:
-      // LEDs flash on and off
-      allOff();
-      delay(500);
-      allOn();
-      delay(500);
-      break;
+    // LEDs flash on and off
+    allOff();
+    delay(500);
+    allOn();
+    delay(500);
+    break;
     case 3:
-      // LEDs light up in sequence
-      bouncing();
-      break;
+    // LEDs light up in sequence
+    bouncing();
+    break;
+    case 4:
+    // green or red LEDs light up depending on pot
+    turnSignal();
+    break;
   }
 
   // if lightState is greater than 3, reset lightState to off
-  if (lightState > 3) {
+  if (lightState > 4) {
     Serial.println("reset lightState");
     lightState = 0;
   }
@@ -97,4 +103,30 @@ void bouncing() {
   digitalWrite(redPin, HIGH);
   delay(500);
   return;
+}
+
+void turnSignal() {
+  potVal = analogRead(potPin); // read the potentiometer
+
+  if (potVal > 1000) {
+    // if potentiometer is turned to the right, flash light on the right
+    allOff();
+    delay(250);
+    digitalWrite(greenPin, HIGH);
+    delay(250);
+  }
+  else if (potVal < 23) {
+    // if potentiometer is turned to the left, flash light on the left
+    allOff();
+    delay(250);
+    digitalWrite(redPin, HIGH);
+    delay(250);
+  }
+  else {
+    // in all other cases, just flash the middle light
+    allOff();
+    delay(250);
+    digitalWrite(yellowPin, HIGH);
+    delay(250);
+  }
 }
