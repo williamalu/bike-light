@@ -21,8 +21,6 @@ void setup() {
   
   // set button to input
   pinMode(buttonPin, INPUT);
-  
-  Serial.begin(9600); 
 }
 
 void loop() {
@@ -55,11 +53,8 @@ void loop() {
 
   // if lightState is greater than 3, reset lightState to off
   if (lightState > 4) {
-    Serial.println("reset lightState");
     lightState = 0;
   }
-
-  Serial.println(lightState);
 }
 
 void increment() {
@@ -69,7 +64,6 @@ void increment() {
   // if button has not been pressed within the last 250ms, 
   // increment lightState
   if (millis() - lastButtonTime > 250) {
-    Serial.println("increment lightState");
     lightState++;
     lastButtonTime = buttonTime;
   }
